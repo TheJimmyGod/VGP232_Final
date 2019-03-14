@@ -1,0 +1,15 @@
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\bin\Debug\Final_Project.exe.config
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\bin\Debug\Final_Project.exe
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\bin\Debug\Final_Project.pdb
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\Final_Project.csprojAssemblyReference.cache
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\MainWindow.g.cs
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\App.g.cs
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\Final_Project_MarkupCompile.cache
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\Final_Project_MarkupCompile.lref
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\MainWindow.baml
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\Final_Project.g.resources
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\Final_Project.Properties.Resources.resources
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\Final_Project.csproj.GenerateResource.cache
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\Final_Project.csproj.CoreCompileInputs.cache
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\Final_Project.exe
+C:\Users\1820109\Desktop\VGP232_Final\Final_Project\Final_Project\obj\Debug\Final_Project.pdb

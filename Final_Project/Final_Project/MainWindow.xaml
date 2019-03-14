@@ -18,7 +18,7 @@
             <ColumnDefinition Width="430*"/>
         </Grid.ColumnDefinitions>
         <Border Margin="0,20,164.8,19.8" Grid.Column="1">
-            <Canvas Grid.Column="2" Margin="199,108,-519,-403.2" Grid.Row="1" x:Name="Map" MouseDown="Click" Width="320" Height="320">
+            <Canvas Grid.Column="2" Margin="199,108,-519,-403.2" Grid.Row="1" x:Name="Map" MouseDown="Click" Width="330" Height="320">
 
             </Canvas>
         </Border>

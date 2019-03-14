@@ -19,10 +19,12 @@ using System.Windows.Shapes;
 namespace Final_Project
 {
     /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// // Student Name : Minjang Jin
+    /// // Student Number : 1820109
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Base string and enums to seek what tile is
         public enum Types
         {
             First, Second, Third, Fourth, Erase
@@ -39,9 +41,9 @@ namespace Final_Project
         public MainWindow()
         {
             InitializeComponent();
-            DisplayGrid();
+            DisplayGrid(); // Spawn girds on Canvas
         }
-
+        // Change type when you select each radio button
         private void First_Select(object sender, RoutedEventArgs e)
         {
             type = Types.First;
@@ -65,7 +67,7 @@ namespace Final_Project
         {
             type = Types.Erase;
         }
-
+        // Generate what you made a custom grid to png file
         private void Generate(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
@@ -77,6 +79,7 @@ namespace Final_Project
                     string path = saveFile.FileName;
                     if (File.Exists(path)) { File.Delete(path); }
                     Rect rect = new Rect(Map.RenderSize);
+                    // RenderTargetBitmap would follow how to convert specific grid to a single image
                     RenderTargetBitmap render = new RenderTargetBitmap((int)rect.Width, (int)rect.Height, 96d, 96d, PixelFormats.Default);
                     for (int i = 0; i < Map.Children.Count; i++)
                     {
@@ -96,7 +99,7 @@ namespace Final_Project
 
             }
         }
-
+        // Import tile set. The size must be 32 X 32
         private void Import_One(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -109,6 +112,7 @@ namespace Final_Project
                 }
                 else
                 {
+                    // Display what tile have you chosen
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
                     bitmap.UriSource = new Uri(openFile.FileName);
@@ -119,7 +123,6 @@ namespace Final_Project
                 }
             }
         }
-
         private void Import_Two(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -132,6 +135,7 @@ namespace Final_Project
                 }
                 else
                 {
+                    // Display what tile have you chosen
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
                     bitmap.UriSource = new Uri(openFile.FileName);
@@ -142,7 +146,6 @@ namespace Final_Project
                 }
             }
         }
-
         private void Import_Three(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -155,6 +158,7 @@ namespace Final_Project
                 }
                 else
                 {
+                    // Display what tile have you chosen
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
                     bitmap.UriSource = new Uri(openFile.FileName);
@@ -165,7 +169,6 @@ namespace Final_Project
                 }
             }
         }
-
         private void Import_Four(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -178,6 +181,7 @@ namespace Final_Project
                 }
                 else
                 {
+                    // Display what tile have you chosen
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
                     bitmap.UriSource = new Uri(openFile.FileName);
@@ -188,7 +192,7 @@ namespace Final_Project
                 }
             }
         }
-
+        // Add a custom list to save a map data from outside
         private void Add(object sender, RoutedEventArgs e)
         {
             if(Map_List.Items.Count <= 2)
@@ -200,7 +204,7 @@ namespace Final_Project
                 MessageBox.Show("Can't add more than 3");
             }
         }
-
+        // Remove a custom list, even the assigned data is empty
         private void Remove(object sender, RoutedEventArgs e)
         {
             if(!Map_List.Items.IsEmpty)
@@ -224,7 +228,7 @@ namespace Final_Project
                 MessageBox.Show("The list is empty");
             }
         }
-
+        // Display grid to work
         private void DisplayGrid()
         {
             int size = 32;
@@ -248,7 +252,7 @@ namespace Final_Project
                 x += (size + 1);
             }
         }
-
+        // When you click each grid, the grid would change what you selected tileset.
         private void Click(object sender, MouseButtonEventArgs e)
         {
             try
@@ -258,6 +262,7 @@ namespace Final_Project
                 if (result != null)
                 {
                     Rectangle rect = (Rectangle)result.VisualHit;
+                    // Switch statement will help to convert a grid into an image
                     switch (type)
                     {
                         case Types.First:
@@ -273,7 +278,7 @@ namespace Final_Project
                             rect.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Fourth_tile, UriKind.Absolute)) };
                             break;
                         case Types.Erase:
-                            rect.Fill = Brushes.White;
+                            rect.Fill = Brushes.White; // Basically, brushes white to assign 'Erase'
                             break;
                     }
                 }
@@ -283,7 +288,9 @@ namespace Final_Project
                 MessageBox.Show("Import tile first");
             }
         }
-
+        // 1. Select a specific list first
+        // 2. Press the save to choose what you want a map to merge
+        // 3. You have to fill three lists
         private void Save(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -305,12 +312,14 @@ namespace Final_Project
             }
             
         }
-
+        // When you fill all list, Combine generator will help to merge three images into a single image
+        // Basically, it has been ultilized sprite generator's functions
         private void Combine(object sender, RoutedEventArgs e)
         {
             if(ImagePath1 == string.Empty && ImagePath2 == string.Empty)
             {
                 MessageBox.Show("At least needs more than two items");
+                // The user has to fill all list
             }
             else
             {
