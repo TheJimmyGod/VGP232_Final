@@ -31,6 +31,8 @@ namespace Final_Project
         List<Is_Map> New_Map1 = new List<Is_Map>(100);
         List<Is_Map> New_Map2 = new List<Is_Map>(100);
         List<Is_Map> New_Map3 = new List<Is_Map>(100);
+        List<Is_Map> All_Map = new List<Is_Map>(300);
+        List<Is_Map> Load_Map = new List<Is_Map>();
 
         string Tile_name1;
         string Tile_name2;
@@ -38,6 +40,7 @@ namespace Final_Project
         string Tile_name4;
 
         int[,] myGrid = new int[100,100];
+        int[,] newGrid = new int[100, 300];
 
         // Base string and enums to seek what tile is
         public enum Types
@@ -124,27 +127,48 @@ namespace Final_Project
                     if(Map_Number == 0)
                     {
                         string FileName = "First_Map.json";
+                        if (File.Exists(FileName))
+                        {
+                            File.Delete(FileName);
+                        }
                         var JsonSerializer = JsonConvert.SerializeObject(New_Map1, Formatting.Indented);
                         System.IO.File.WriteAllText(FileName, JsonSerializer);
+                        ImagePath1 = path;
                         First_Check.IsChecked = true;
                     }
                     if (Map_Number == 1)
                     {
                         string FileName = "Second_Map.json";
+                        if (File.Exists(FileName))
+                        {
+                            File.Delete(FileName);
+                        }
                         var JsonSerializer = JsonConvert.SerializeObject(New_Map2, Formatting.Indented);
                         System.IO.File.WriteAllText(FileName, JsonSerializer);
+                        ImagePath2 = path;
                         Second_Check.IsChecked = true;
                     }
-                    Map_Number++;
                     if (Map_Number == 2)
                     {
                         string FileName = "Third_Map.json";
+                        if (File.Exists(FileName))
+                        {
+                            File.Delete(FileName);
+                        }
                         var JsonSerializer = JsonConvert.SerializeObject(New_Map3, Formatting.Indented);
                         System.IO.File.WriteAllText(FileName, JsonSerializer);
+                        ImagePath3 = path;
                         Third_Check.IsChecked = true;
-                        Map_Number = 0;
+                        Combine_Button.IsEnabled = true;
                     }
-
+                    if(Map_Number > 3)
+                    {
+                        Map_Number = 2;
+                    }
+                    else
+                    {
+                        Map_Number++;
+                    }
                 }
                 catch(Exception ex)
                 {
@@ -261,6 +285,8 @@ namespace Final_Project
                 for (int j = 0; j < 10; j++)
                 {
                     Is_Map map = new Is_Map();
+                    Is_Map map2 = new Is_Map();
+                    Is_Map map3 = new Is_Map();
                     Rectangle rect = new Rectangle();
                     rect.Width = size;
                     rect.Height = size;
@@ -274,18 +300,18 @@ namespace Final_Project
                     y += (size + 1);
                     New_Map1.Add(map);
                     New_Map1[Array_index].GetTileNumber = Tile_Type.Empty;
-                    New_Map1[Array_index].Columns = j;
-                    New_Map1[Array_index].Rows = i;
+                    New_Map1[Array_index].Columns = j + 1;
+                    New_Map1[Array_index].Rows = i + 1;
 
-                    New_Map2.Add(map);
+                    New_Map2.Add(map2);
                     New_Map2[Array_index].GetTileNumber = Tile_Type.Empty;
-                    New_Map2[Array_index].Columns = j;
-                    New_Map2[Array_index].Rows = i;
+                    New_Map2[Array_index].Columns = j + 1;
+                    New_Map2[Array_index].Rows = i + 1;
 
-                    New_Map3.Add(map);
+                    New_Map3.Add(map3);
                     New_Map3[Array_index].GetTileNumber = Tile_Type.Empty;
-                    New_Map3[Array_index].Columns = j;
-                    New_Map3[Array_index].Rows = i;
+                    New_Map3[Array_index].Columns = j + 1;
+                    New_Map3[Array_index].Rows = i + 1;
 
                     Array_index++;
 
@@ -298,118 +324,117 @@ namespace Final_Project
         // When you click each grid, the grid would change what you selected tileset.
         private void Click(object sender, MouseButtonEventArgs e)
         {
-            Point pt = e.GetPosition((UIElement)sender);
-            HitTestResult result = VisualTreeHelper.HitTest(Map, pt);
-
-            if (result != null)
-            {
-                Rectangle rect = (Rectangle)result.VisualHit;
-                for (int i = 0; i < Map.Children.Count; i++)
-                {
-                    if (Map.Children[i] == rect)
-                    {
-                        index = i;
-                    }
-                }
-                // Switch statement will help to convert a grid into an image
-                switch (type)
-                {
-                    case Types.First:
-                        rect.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(First_tile, UriKind.Absolute)) };
-                        if (Map_Number == 0)
-                        {
-                            New_Map1[index - 1].GetTileNumber = Tile_Type.One;
-                            New_Map1[index - 1].TileName = Tile_name1;
-                        }
-                        if (Map_Number == 1)
-                        {
-                            New_Map2[index - 1].GetTileNumber = Tile_Type.One;
-                            New_Map2[index - 1].TileName = Tile_name1;
-                        }
-                        if (Map_Number == 2)
-                        {
-                            New_Map3[index - 1].GetTileNumber = Tile_Type.One;
-                            New_Map3[index - 1].TileName = Tile_name1;
-                        }
-                        break;
-                    case Types.Second:
-                        rect.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Second_tile, UriKind.Absolute)) };
-                        if (Map_Number == 0)
-                        {
-                            New_Map1[index - 1].GetTileNumber = Tile_Type.Two;
-                            New_Map1[index - 1].TileName = Tile_name2;
-                        }
-                        if (Map_Number == 1)
-                        {
-                            New_Map2[index - 1].GetTileNumber = Tile_Type.Two;
-                            New_Map2[index - 1].TileName = Tile_name2;
-                        }
-                        if (Map_Number == 2)
-                        {
-                            New_Map2[index - 1].GetTileNumber = Tile_Type.Two;
-                            New_Map2[index - 1].TileName = Tile_name2;
-                        }
-                        break;
-                    case Types.Third:
-                        rect.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Third_tile, UriKind.Absolute)) };
-                        if (Map_Number == 0)
-                        {
-                            New_Map1[index - 1].GetTileNumber = Tile_Type.Three;
-                            New_Map1[index - 1].TileName = Tile_name3;
-                        }
-                        if (Map_Number == 1)
-                        {
-                            New_Map2[index - 1].GetTileNumber = Tile_Type.Three;
-                            New_Map2[index - 1].TileName = Tile_name3;
-                        }
-                        if (Map_Number == 2)
-                        {
-                            New_Map3[index - 1].GetTileNumber = Tile_Type.Three;
-                            New_Map3[index - 1].TileName = Tile_name3;
-                        }
-                        break;
-                    case Types.Fourth:
-                        rect.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Fourth_tile, UriKind.Absolute)) };
-                        if (Map_Number == 0)
-                        {
-                            New_Map1[index - 1].GetTileNumber = Tile_Type.Four;
-                            New_Map1[index - 1].TileName = Tile_name4;
-                        }
-                        if (Map_Number == 1)
-                        {
-                            New_Map2[index - 1].GetTileNumber = Tile_Type.Four;
-                            New_Map2[index - 1].TileName = Tile_name4;
-                        }
-                        if (Map_Number == 2)
-                        {
-                            New_Map3[index - 1].GetTileNumber = Tile_Type.Four;
-                            New_Map3[index - 1].TileName = Tile_name4;
-                        }
-
-                        break;
-                    case Types.Erase:
-                        rect.Fill = Brushes.White; // Basically, brushes white to assign 'Erase'
-                        if (Map_Number == 0)
-                        {
-                            New_Map1[index - 1].GetTileNumber = Tile_Type.Empty;
-                            New_Map1[index - 1].TileName = "Null";
-                        }
-                        if (Map_Number == 1)
-                        {
-                            New_Map2[index - 1].GetTileNumber = Tile_Type.Empty;
-                            New_Map2[index - 1].TileName = "Null";
-                        }
-                        if (Map_Number == 2)
-                        {
-                            New_Map3[index - 1].GetTileNumber = Tile_Type.Empty;
-                            New_Map3[index - 1].TileName = "Null";
-                        }
-                        break;
-                }
-            }
             try
             {
-                
+                Point pt = e.GetPosition((UIElement)sender);
+                HitTestResult result = VisualTreeHelper.HitTest(Map, pt);
+
+                if (result != null)
+                {
+                    Rectangle rect = (Rectangle)result.VisualHit;
+                    for (int i = 0; i < Map.Children.Count; i++)
+                    {
+                        if (Map.Children[i] == rect)
+                        {
+                            index = i;
+                        }
+                    }
+                    // Switch statement will help to convert a grid into an image
+                    switch (type)
+                    {
+                        case Types.First:
+                            rect.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(First_tile, UriKind.Absolute)) };
+                            if (Map_Number == 0)
+                            {
+                                New_Map1[index].GetTileNumber = Tile_Type.One;
+                                New_Map1[index].TileName = Tile_name1;
+                            }
+                            if (Map_Number == 1)
+                            {
+                                New_Map2[index].GetTileNumber = Tile_Type.One;
+                                New_Map2[index].TileName = Tile_name1;
+                            }
+                            if (Map_Number == 2)
+                            {
+                                New_Map3[index].GetTileNumber = Tile_Type.One;
+                                New_Map3[index].TileName = Tile_name1;
+                            }
+                            break;
+                        case Types.Second:
+                            rect.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Second_tile, UriKind.Absolute)) };
+                            if (Map_Number == 0)
+                            {
+                                New_Map1[index].GetTileNumber = Tile_Type.Two;
+                                New_Map1[index].TileName = Tile_name2;
+                            }
+                            if (Map_Number == 1)
+                            {
+                                New_Map2[index].GetTileNumber = Tile_Type.Two;
+                                New_Map2[index].TileName = Tile_name2;
+                            }
+                            if (Map_Number == 2)
+                            {
+                                New_Map2[index].GetTileNumber = Tile_Type.Two;
+                                New_Map2[index].TileName = Tile_name2;
+                            }
+                            break;
+                        case Types.Third:
+                            rect.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Third_tile, UriKind.Absolute)) };
+                            if (Map_Number == 0)
+                            {
+                                New_Map1[index].GetTileNumber = Tile_Type.Three;
+                                New_Map1[index].TileName = Tile_name3;
+                            }
+                            if (Map_Number == 1)
+                            {
+                                New_Map2[index].GetTileNumber = Tile_Type.Three;
+                                New_Map2[index].TileName = Tile_name3;
+                            }
+                            if (Map_Number == 2)
+                            {
+                                New_Map3[index].GetTileNumber = Tile_Type.Three;
+                                New_Map3[index].TileName = Tile_name3;
+                            }
+                            break;
+                        case Types.Fourth:
+                            rect.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Fourth_tile, UriKind.Absolute)) };
+                            if (Map_Number == 0)
+                            {
+                                New_Map1[index].GetTileNumber = Tile_Type.Four;
+                                New_Map1[index].TileName = Tile_name4;
+                            }
+                            if (Map_Number == 1)
+                            {
+                                New_Map2[index].GetTileNumber = Tile_Type.Four;
+                                New_Map2[index].TileName = Tile_name4;
+                            }
+                            if (Map_Number == 2)
+                            {
+                                New_Map3[index].GetTileNumber = Tile_Type.Four;
+                                New_Map3[index].TileName = Tile_name4;
+                            }
+
+                            break;
+                        case Types.Erase:
+                            rect.Fill = Brushes.White; // Basically, brushes white to assign 'Erase'
+                            if (Map_Number == 0)
+                            {
+                                New_Map1[index].GetTileNumber = Tile_Type.Empty;
+                                New_Map1[index].TileName = "Null";
+                            }
+                            if (Map_Number == 1)
+                            {
+                                New_Map2[index].GetTileNumber = Tile_Type.Empty;
+                                New_Map2[index].TileName = "Null";
+                            }
+                            if (Map_Number == 2)
+                            {
+                                New_Map3[index].GetTileNumber = Tile_Type.Empty;
+                                New_Map3[index].TileName = "Null";
+                            }
+                            break;
+                    }
+                }
             }
             catch (Exception)
             {
@@ -421,10 +446,72 @@ namespace Final_Project
         // Basically, it has been ultilized sprite generator's functions
         private void Combine(object sender, RoutedEventArgs e)
         {
+            int Array_index2 = 0;
+            int Array_index_First = 0;
+            int Array_index_Second = 0;
+            int Array_index_Third = 0;
+            
+            for (int r = 0; r < 10; r++)
+            {
+                for (int c = 0; c < 30; c++)
+                {
+                    
+                    Is_Map is_Map = new Is_Map();
+                    All_Map.Add(is_Map);
+                    newGrid[r,c] = Array_index2;
+                    All_Map[Array_index2].Columns = c + 1;
+                    All_Map[Array_index2].Rows = r + 1;
+                    if (c >= 0 && c < 10)
+                    {
+                        All_Map[Array_index2].GetTileNumber = New_Map1[Array_index_First].GetTileNumber;
+                        All_Map[Array_index2].TileName = New_Map1[Array_index_First].TileName;
+                        if (Array_index_First == 99)
+                        {
+                            Array_index_First = 0;
+                        }
+                        else
+                        {
+                            Array_index_First++;
+                        }
+                    }
+                    else if (c >= 10 && c < 20)
+                    {
+                        All_Map[Array_index2].GetTileNumber = New_Map2[Array_index_Second].GetTileNumber;
+                        All_Map[Array_index2].TileName = New_Map2[Array_index_Second].TileName;
+
+                        if (Array_index_Second == 99)
+                        {
+                            Array_index_Second = 0;
+                        }
+                        else
+                        {
+                            Array_index_Second++;
+                        }
+                    }
+                    else
+                    {
+                        All_Map[Array_index2].GetTileNumber = New_Map3[Array_index_Third].GetTileNumber;
+                        All_Map[Array_index2].TileName = New_Map3[Array_index_Third].TileName;
+                        if (Array_index_Third == 99)
+                        {
+                            Array_index_Third = 0;
+                        }
+                        else
+                        {
+                            Array_index_Third++;
+                        }
+                    }
+
+                    Array_index2++;
+                }
+            }
+
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.Filter = "png files (*.png)|*.png|All files (*.*)|*.*";
             if (saveFile.ShowDialog() == true)
             {
+                
+
                 string[] Files = { ImagePath1, ImagePath2, ImagePath3 };
 
                 int MaxWidth = 0;
@@ -467,6 +554,13 @@ namespace Final_Project
                     }
                 }
                 Sheet.Save(saveFile.FileName); // The image will save new file into output path
+                string CompleteName = "Map.json";
+                if(File.Exists(CompleteName))
+                {
+                    File.Delete(CompleteName);
+                }
+                var JsonSerilzation = JsonConvert.SerializeObject(All_Map, Formatting.Indented);
+                System.IO.File.WriteAllText(CompleteName, JsonSerilzation);
                 Combine_Button.IsEnabled = false;
                 ImagePath1 = null;
                 ImagePath2 = null;
@@ -475,6 +569,136 @@ namespace Final_Project
                 First_Check.IsChecked = false;
                 Second_Check.IsChecked = false;
                 Third_Check.IsChecked = false;
+                All_Map = null;
+                Generate_Button.IsEnabled = true;
+            }
+        }
+
+        private void Load_JSON(object sender, RoutedEventArgs e)
+        {
+            if(First_tile == string.Empty && Second_tile == string.Empty && Third_tile == string.Empty && Fourth_tile == string.Empty)
+            {
+                MessageBox.Show("Should import all tiles first");
+            }
+            else
+            {
+                try
+                {
+                    int U = 0;
+                    OpenFileDialog dialog = new OpenFileDialog();
+                    dialog.Filter = "JSON format |*.json";
+                    if (dialog.ShowDialog() == true)
+                    {
+                        string Json = System.IO.File.ReadAllText(dialog.FileName);
+                        Load_Map = JsonConvert.DeserializeObject<List<Is_Map>>(Json);
+                        if (Map_Number == 0)
+                        {
+                            for (int i = 0; i < New_Map1.Count; i++)
+                            {
+                                New_Map1[i].Columns = Load_Map[i].Columns;
+                                New_Map1[i].Rows = Load_Map[i].Rows;
+                                New_Map1[i].GetTileNumber = Load_Map[i].GetTileNumber;
+                                New_Map1[i].TileName = Load_Map[i].TileName;
+                            }
+                            First_Check.IsChecked = true;
+                            foreach (var c in Map.Children.OfType<Rectangle>())
+                            {
+                                switch (New_Map1[U].GetTileNumber)
+                                {
+                                    case Tile_Type.Empty:
+                                        c.Fill = Brushes.White;
+                                        break;
+                                    case Tile_Type.One:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(First_tile, UriKind.Absolute)) };
+                                        break;
+                                    case Tile_Type.Two:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Second_tile, UriKind.Absolute)) };
+                                        break;
+                                    case Tile_Type.Three:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Third_tile, UriKind.Absolute)) };
+                                        break;
+                                    case Tile_Type.Four:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Fourth_tile, UriKind.Absolute)) };
+                                        break;
+                                }
+                                U++;
+                            }
+
+                        }
+                        else if (Map_Number == 1)
+                        {
+                            for (int i = 0; i < New_Map1.Count; i++)
+                            {
+                                New_Map2[i].Columns = Load_Map[i].Columns;
+                                New_Map2[i].Rows = Load_Map[i].Rows;
+                                New_Map2[i].GetTileNumber = Load_Map[i].GetTileNumber;
+                                New_Map2[i].TileName = Load_Map[i].TileName;
+                            }
+                            Second_Check.IsChecked = true;
+                            Map_Number++;
+                            foreach (var c in Map.Children.OfType<Rectangle>())
+                            {
+                                switch (New_Map2[U].GetTileNumber)
+                                {
+                                    case Tile_Type.Empty:
+                                        c.Fill = Brushes.White;
+                                        break;
+                                    case Tile_Type.One:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(First_tile, UriKind.Absolute)) };
+                                        break;
+                                    case Tile_Type.Two:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Second_tile, UriKind.Absolute)) };
+                                        break;
+                                    case Tile_Type.Three:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Third_tile, UriKind.Absolute)) };
+                                        break;
+                                    case Tile_Type.Four:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Fourth_tile, UriKind.Absolute)) };
+                                        break;
+                                }
+                                U++;
+                            }
+                        }
+                        else if (Map_Number == 2)
+                        {
+                            for (int i = 0; i < New_Map1.Count; i++)
+                            {
+                                New_Map3[i].Columns = Load_Map[i].Columns;
+                                New_Map3[i].Rows = Load_Map[i].Rows;
+                                New_Map3[i].GetTileNumber = Load_Map[i].GetTileNumber;
+                                New_Map3[i].TileName = Load_Map[i].TileName;
+                            }
+                            Third_Check.IsChecked = true;
+                            Combine_Button.IsEnabled = true;
+                            foreach (var c in Map.Children.OfType<Rectangle>())
+                            {
+                                switch (New_Map3[U].GetTileNumber)
+                                {
+                                    case Tile_Type.Empty:
+                                        c.Fill = Brushes.White;
+                                        break;
+                                    case Tile_Type.One:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(First_tile, UriKind.Absolute)) };
+                                        break;
+                                    case Tile_Type.Two:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Second_tile, UriKind.Absolute)) };
+                                        break;
+                                    case Tile_Type.Three:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Third_tile, UriKind.Absolute)) };
+                                        break;
+                                    case Tile_Type.Four:
+                                        c.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Fourth_tile, UriKind.Absolute)) };
+                                        break;
+                                }
+                                U++;
+                            }
+                        }
+                    }
+                }
+                catch(Exception)
+                {
+                    MessageBox.Show("You have to import all tiles!");
+                }
             }
         }
     }
