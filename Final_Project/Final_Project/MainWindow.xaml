@@ -5,11 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Final_Project"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600">
+        Title="2D Map Generator" Height="600" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="65*"/>
-            <RowDefinition Height="456*"/>
+            <RowDefinition Height="81*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="77*"/>
+            <RowDefinition Height="56*"/>
+            <RowDefinition Height="33*"/>
+            <RowDefinition Height="21*"/>
+            <RowDefinition Height="111*"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -17,38 +23,36 @@
             <ColumnDefinition Width="173*"/>
             <ColumnDefinition Width="430*"/>
         </Grid.ColumnDefinitions>
-        <Border Margin="0,20,164.8,19.8" Grid.Column="1">
-            <Canvas Grid.Column="2" Margin="199,108,-519,-403.2" Grid.Row="1" x:Name="Map" MouseDown="Click" Width="330" Height="320">
 
+        <Border Margin="0,20,164,20" Grid.Column="1">
+            <Canvas Grid.Column="2" Margin="199,108,-519,-403.2" Grid.Row="1" x:Name="Map" MouseDown="Click" Width="330" Height="320">
+                <Rectangle Stroke="Black" StrokeThickness="3" RadiusX="100" RadiusY="100" Canvas.Left="100" Canvas.Top="100">
+
+
+                </Rectangle>
             </Canvas>
         </Border>
         <Button Content="Generate" Grid.Column="1" HorizontalAlignment="Left" Margin="36,23,0,0" VerticalAlignment="Top" Width="75" Click="Generate" Height="19"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="61,352.2,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Map List" VerticalAlignment="Top" Height="16" Width="47"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="61,68.2,0,0" Grid.Row="1" TextWrapping="Wrap" x:Name="Sub_Tile" VerticalAlignment="Top" Height="16" Width="0"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="50,5,0,0" Grid.Row="6" TextWrapping="Wrap" Text="Map List" VerticalAlignment="Top" Height="16" Width="47" RenderTransformOrigin="0.872,-2.062"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="61,68,0,0" Grid.Row="1" TextWrapping="Wrap" x:Name="Sub_Tile" VerticalAlignment="Top" Height="16" Width="0" Grid.RowSpan="2"/>
 
-        <Button Content="Import..." Grid.Column="1" HorizontalAlignment="Left" Margin="75,30.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"  Click="Import_One" Height="27"/>
-        <Image Grid.Column="1" HorizontalAlignment="Left" Margin="9,25.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="32" Height="32" x:Name="Tile1"/>
-        <Image Grid.Column="1" HorizontalAlignment="Left" Margin="9,100.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="32" Height="32" x:Name="Tile2"/>
-        <Button Content="Import..." Grid.Column="1" HorizontalAlignment="Left" Margin="74,105.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="Import_Two" Height="27"/>
-        <Image Grid.Column="1" HorizontalAlignment="Left" Margin="9,175.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="32" Height="32" x:Name="Tile3"/>
-        <Button Content="Import..." Grid.Column="1" HorizontalAlignment="Left" Margin="74,180.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="Import_Three" Height="27"/>
-        <Image Grid.Column="1" HorizontalAlignment="Left" Margin="9,250.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="32" Height="32" x:Name="Tile4"/>
-        <Button Content="Import..." Grid.Column="1" HorizontalAlignment="Left" Margin="74,255.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="Import_Four" Height="27"/>
-        <Button HorizontalAlignment="Left" Height="23" Margin="11,297.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="50" Content="Add" Grid.Column="1" FontSize="9" Click="Add"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,325.2,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Add an new list" VerticalAlignment="Top" FontSize="7" FontStyle="Oblique" Height="9" Width="56"/>
-        <ComboBox Grid.Column="1" Margin="20,373.2,24.8,58" Grid.Row="1" x:Name="Map_List">
-            <ComboBoxItem IsSelected="True">Original</ComboBoxItem>
-        </ComboBox>
-        <RadioButton GroupName="Property" Checked="Eraser" Content="Erase" HorizontalAlignment="Left" Margin="17.2,17.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="54" Height="14" Grid.Column="2"/>
-        <RadioButton GroupName="Property" Checked="First_Select" IsChecked="True" HorizontalAlignment="Left" Margin="3,30.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="15" Height="14"/>
-        <RadioButton GroupName="Property" Checked="Second_Select" HorizontalAlignment="Left" Margin="3,105.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="15" Height="14"/>
-        <RadioButton GroupName="Property" Checked="Third_Select" HorizontalAlignment="Left" Margin="3,184.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="15" Height="15"/>
-        <RadioButton GroupName="Property" Checked="Fourth_Select" HorizontalAlignment="Left" Margin="3,259.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="13" Height="14"/>
-        <Button HorizontalAlignment="Left" Height="23" Margin="107,297.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="50" Content="Remove" Grid.Column="1" FontSize="9" Click="Remove"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="92,325.2,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="7" FontStyle="Oblique" Height="9" Width="67" Text="Delete a present list"/>
-        <TextBox Name="Map_name"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="22,414.2,0,0" Grid.Row="1" TextWrapping="Wrap" Text="New map name" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Combine Generate" Grid.Column="2" HorizontalAlignment="Left" Margin="145.2,16,0,0" VerticalAlignment="Top" Width="117" Click="Combine" Grid.Row="2" Height="20"/>
-        <Button Content="Save" Grid.Column="1" HorizontalAlignment="Left" Margin="41,16,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="Save" Height="20"/>
+        <Button Content="Import..." Grid.Column="1" HorizontalAlignment="Left" Margin="75,30,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"  Click="Import_One" Height="27"/>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Margin="9,25,0,0" Grid.Row="1" VerticalAlignment="Top" Width="32" Height="32" x:Name="Tile1"/>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Margin="9,19,0,0" Grid.Row="2" VerticalAlignment="Top" Width="32" Height="32" x:Name="Tile2"/>
+        <Button Content="Import..." Grid.Column="1" HorizontalAlignment="Left" Margin="74,24,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Click="Import_Two" Height="27"/>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Margin="9,19,0,0" Grid.Row="3" VerticalAlignment="Top" Width="32" Height="32" x:Name="Tile3"/>
+        <Button Content="Import..." Grid.Column="1" HorizontalAlignment="Left" Margin="74,24,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Click="Import_Three" Height="27"/>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Margin="9,17,0,0" Grid.Row="4" VerticalAlignment="Top" Width="32" Height="32" x:Name="Tile4"/>
+        <Button Content="Import..." Grid.Column="1" HorizontalAlignment="Left" Margin="74,22,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" Click="Import_Four" Height="27"/>
+        <CheckBox x:Name="First_Check" Grid.Column="1" Grid.Row="7" IsEnabled="False" Margin="26,10,68,85">First Map</CheckBox>
+        <CheckBox x:Name="Second_Check" Grid.Column="1" Grid.Row="7" IsEnabled="False" Margin="26,31,49,64">Second Map</CheckBox>
+        <CheckBox x:Name="Third_Check" Grid.Column="1" Grid.Row="7" IsEnabled="False" Margin="26,52,56,41">Third Map</CheckBox>
+        <RadioButton GroupName="Property" Checked="Eraser" Content="Erase" HorizontalAlignment="Left" Margin="17,17,0,0" Grid.Row="1" VerticalAlignment="Top" Width="54" Height="14" Grid.Column="2"/>
+        <RadioButton GroupName="Property" Checked="First_Select" IsChecked="True" HorizontalAlignment="Left" Margin="3,30,0,0" Grid.Row="1" VerticalAlignment="Top" Width="15" Height="14"/>
+        <RadioButton GroupName="Property" Checked="Second_Select" HorizontalAlignment="Left" Margin="3,24,0,0" Grid.Row="2" VerticalAlignment="Top" Width="15" Height="14"/>
+        <RadioButton GroupName="Property" Checked="Third_Select" HorizontalAlignment="Left" Margin="3,28,0,0" Grid.Row="3" VerticalAlignment="Top" Width="15" Height="15"/>
+        <RadioButton GroupName="Property" Checked="Fourth_Select" HorizontalAlignment="Left" Margin="3,26,0,0" Grid.Row="4" VerticalAlignment="Top" Width="13" Height="14"/>
+        <Button x:Name="Combine_Button" Content="Combine Generate" Grid.Column="2" HorizontalAlignment="Left" Margin="145,16,0,0" VerticalAlignment="Top" Width="117" Click="Combine" Grid.Row="8" Height="20" IsEnabled="False"/>
 
     </Grid>
 </Window>
