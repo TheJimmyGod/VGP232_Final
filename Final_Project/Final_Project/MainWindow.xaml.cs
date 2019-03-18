@@ -33,7 +33,6 @@ namespace Final_Project
         List<Is_Map> New_Map1 = new List<Is_Map>(100);
         List<Is_Map> New_Map2 = new List<Is_Map>(100);
         List<Is_Map> New_Map3 = new List<Is_Map>(100);
-        List<Is_Map> All_Map = new List<Is_Map>(300);
         List<Is_Map> Load_Map = new List<Is_Map>();
 
         string Tile_name1;
@@ -46,13 +45,12 @@ namespace Final_Project
 
         // Base string and enums to seek what tile is
         public Types type { get; private set; }
-        
+        public Direction direction { get; private set; }
 
         public MainWindow()
         {
             InitializeComponent();
             DisplayGrid(); // Spawn girds on Canvas
-            
         }
         // Change type when you select each radio button
         private void First_Select(object sender, RoutedEventArgs e)
@@ -77,6 +75,16 @@ namespace Final_Project
         private void Eraser(object sender, RoutedEventArgs e)
         {
             type = Types.Erase;
+        }
+        // Change direction type when you select each radio button
+        private void Horizontal(object sender, RoutedEventArgs e)
+        {
+            direction = Direction.Horizontal;
+        }
+
+        private void Vertical(object sender, RoutedEventArgs e)
+        {
+            direction = Direction.Vertical;
         }
         // Generate what you made a custom grid to png file
         private void Generate(object sender, RoutedEventArgs e)
@@ -118,8 +126,13 @@ namespace Final_Project
                         {
                             c.Fill = Brushes.White;
                         }
+                        if (First_Check.IsChecked == true && Second_Check.IsChecked == true && Third_Check.IsChecked == true)
+                        {
+                            Combine_Button.IsEnabled = true;
+                        }
+                        this.Box.SelectedItem = Second_List;
                     }
-                    if (Map_Number == 1)
+                    else if (Map_Number == 1)
                     {
                         string FileName = "Second_Map.json";
                         if (File.Exists(FileName))
@@ -134,8 +147,13 @@ namespace Final_Project
                         {
                             c.Fill = Brushes.White;
                         }
+                        if (First_Check.IsChecked == true && Second_Check.IsChecked == true && Third_Check.IsChecked == true)
+                        {
+                            Combine_Button.IsEnabled = true;
+                        }
+                        this.Box.SelectedItem = Third_List;
                     }
-                    if (Map_Number == 2)
+                    else if (Map_Number == 2)
                     {
                         string FileName = "Third_Map.json";
                         if (File.Exists(FileName))
@@ -146,19 +164,15 @@ namespace Final_Project
                         System.IO.File.WriteAllText(FileName, JsonSerializer);
                         Info.ImagePath3 = path;
                         Third_Check.IsChecked = true;
-                        Combine_Button.IsEnabled = true;
                         foreach (var c in Map.Children.OfType<Rectangle>())
                         {
                             c.Fill = Brushes.White;
                         }
-                    }
-                    if(Map_Number > 3)
-                    {
-                        Map_Number = 2;
-                    }
-                    else
-                    {
-                        Map_Number++;
+                        if (First_Check.IsChecked == true && Second_Check.IsChecked == true && Third_Check.IsChecked == true)
+                        {
+                            Combine_Button.IsEnabled = true;
+                        }
+                        this.Box.SelectedItem = First_Check;
                     }
                 }
                 catch(Exception ex)
@@ -437,132 +451,252 @@ namespace Final_Project
         // Then the app would save a map to Json file
         private void Combine(object sender, RoutedEventArgs e)
         {
+            List<Is_Map> All_Map = new List<Is_Map>(300);
             int Array_index2 = 0;
             int Array_index_First = 0;
             int Array_index_Second = 0;
             int Array_index_Third = 0;
-            
-            for (int r = 0; r < 10; r++)
-            {
-                for (int c = 0; c < 30; c++)
-                {
-                    
-                    Is_Map is_Map = new Is_Map();
-                    All_Map.Add(is_Map);
-                    newGrid[r,c] = Array_index2;
-                    All_Map[Array_index2].Columns = c + 1;
-                    All_Map[Array_index2].Rows = r + 1;
-                    if (c >= 0 && c < 10)
-                    {
-                        All_Map[Array_index2].GetTileNumber = New_Map1[Array_index_First].GetTileNumber;
-                        All_Map[Array_index2].TileName = New_Map1[Array_index_First].TileName;
-                        if (Array_index_First == 99)
-                        {
-                            Array_index_First = 0;
-                        }
-                        else
-                        {
-                            Array_index_First++;
-                        }
-                    }
-                    else if (c >= 10 && c < 20)
-                    {
-                        All_Map[Array_index2].GetTileNumber = New_Map2[Array_index_Second].GetTileNumber;
-                        All_Map[Array_index2].TileName = New_Map2[Array_index_Second].TileName;
 
-                        if (Array_index_Second == 99)
+            if (direction == Direction.Horizontal)
+            {
+                for (int r = 0; r < 10; r++)
+                {
+                    for (int c = 0; c < 30; c++)
+                    {
+
+                        Is_Map is_Map = new Is_Map();
+                        All_Map.Add(is_Map);
+                        newGrid[r, c] = Array_index2;
+                        All_Map[Array_index2].Columns = c + 1;
+                        All_Map[Array_index2].Rows = r + 1;
+                        if (c >= 0 && c < 10)
                         {
-                            Array_index_Second = 0;
+                            All_Map[Array_index2].GetTileNumber = New_Map1[Array_index_First].GetTileNumber;
+                            All_Map[Array_index2].TileName = New_Map1[Array_index_First].TileName;
+                            if (Array_index_First == 99)
+                            {
+                                Array_index_First = 0;
+                            }
+                            else
+                            {
+                                Array_index_First++;
+                            }
+                        }
+                        else if (c >= 10 && c < 20)
+                        {
+                            All_Map[Array_index2].GetTileNumber = New_Map2[Array_index_Second].GetTileNumber;
+                            All_Map[Array_index2].TileName = New_Map2[Array_index_Second].TileName;
+
+                            if (Array_index_Second == 99)
+                            {
+                                Array_index_Second = 0;
+                            }
+                            else
+                            {
+                                Array_index_Second++;
+                            }
                         }
                         else
                         {
-                            Array_index_Second++;
+                            All_Map[Array_index2].GetTileNumber = New_Map3[Array_index_Third].GetTileNumber;
+                            All_Map[Array_index2].TileName = New_Map3[Array_index_Third].TileName;
+                            if (Array_index_Third == 99)
+                            {
+                                Array_index_Third = 0;
+                            }
+                            else
+                            {
+                                Array_index_Third++;
+                            }
                         }
+
+                        Array_index2++;
+                    }
+                }
+
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.Filter = "png files (*.png)|*.png|All files (*.*)|*.*";
+                if (saveFile.ShowDialog() == true)
+                {
+                    string[] Files = { Info.ImagePath1, Info.ImagePath2, Info.ImagePath3 };
+                    if(Info.ImagePath1 == string.Empty && Info.ImagePath2 == string.Empty && Info.ImagePath3 == string.Empty)
+                    {
+                        MessageBox.Show("An image is empty, since Images have been conflicted. Should choose different name of the file, not same");
                     }
                     else
                     {
-                        All_Map[Array_index2].GetTileNumber = New_Map3[Array_index_Third].GetTileNumber;
-                        All_Map[Array_index2].TileName = New_Map3[Array_index_Third].TileName;
-                        if (Array_index_Third == 99)
+                        int MaxWidth = 0;
+                        int MaxHeight = 0;
+                        int Columns = 3;
+                        foreach (string Image in Files)
                         {
-                            Array_index_Third = 0;
+                            System.Drawing.Image image = System.Drawing.Image.FromFile(Image);
+                            MaxWidth = Math.Max(MaxWidth, image.Width);
+                            MaxHeight = Math.Max(MaxHeight, image.Height);
+                            image.Dispose();
+                        }
+
+                        int Width = Columns * MaxWidth;
+                        int Height = MaxHeight;
+
+                        System.Drawing.Bitmap Sheet = new System.Drawing.Bitmap(Width, Height);
+
+                        using (System.Drawing.Graphics GFX = System.Drawing.Graphics.FromImage(Sheet))
+                        {
+                            int Col = 0;
+                            int Row = 0;
+                            foreach (string F in Files)
+                            {
+                                System.Drawing.Image img = System.Drawing.Image.FromFile(F);
+                                int x = (Col * MaxWidth) + (MaxWidth / 2 - img.Width / 2);
+                                int y = (Row * MaxHeight) + (MaxHeight / 2 - img.Height / 2);
+
+                                System.Drawing.Rectangle SrcRect = new System.Drawing.Rectangle(0, 0, img.Width, img.Height);
+                                System.Drawing.Rectangle DestRect = new System.Drawing.Rectangle(x, y, img.Width, img.Height);
+                                GFX.DrawImage(img, DestRect, SrcRect, System.Drawing.GraphicsUnit.Pixel);
+                                img.Dispose();
+
+                                Col++;
+                                if (Col == Columns)
+                                {
+                                    Col = 0;
+                                    Row++;
+                                }
+                            }
+                        }
+                        Sheet.Save(saveFile.FileName); // The image will save new file into output path
+                        string CompleteName = "Map.json";
+                        if (File.Exists(CompleteName))
+                        {
+                            File.Delete(CompleteName);
+                        }
+                        var JsonSerilzation = JsonConvert.SerializeObject(All_Map, Formatting.Indented);
+                        System.IO.File.WriteAllText(CompleteName, JsonSerilzation);
+                        All_Map = null;
+                        this.Box.SelectedItem = First_List;
+                    }
+                }
+            }
+            else if (direction == Direction.Vertical)
+            {
+                for (int r = 0; r < 30; r++)
+                {
+                    for (int c = 0; c < 10; c++)
+                    {
+
+                        Is_Map is_Map = new Is_Map();
+                        All_Map.Add(is_Map);
+                        newGrid[r, c] = Array_index2;
+                        All_Map[Array_index2].Columns = c + 1;
+                        All_Map[Array_index2].Rows = r + 1;
+                        if (r >= 0 && r < 10)
+                        {
+                            All_Map[Array_index2].GetTileNumber = New_Map1[Array_index_First].GetTileNumber;
+                            All_Map[Array_index2].TileName = New_Map1[Array_index_First].TileName;
+                            if (Array_index_First == 99)
+                            {
+                                Array_index_First = 0;
+                            }
+                            else
+                            {
+                                Array_index_First++;
+                            }
+                        }
+                        else if (r >= 10 && r < 20)
+                        {
+                            All_Map[Array_index2].GetTileNumber = New_Map2[Array_index_Second].GetTileNumber;
+                            All_Map[Array_index2].TileName = New_Map2[Array_index_Second].TileName;
+
+                            if (Array_index_Second == 99)
+                            {
+                                Array_index_Second = 0;
+                            }
+                            else
+                            {
+                                Array_index_Second++;
+                            }
                         }
                         else
                         {
-                            Array_index_Third++;
+                            All_Map[Array_index2].GetTileNumber = New_Map3[Array_index_Third].GetTileNumber;
+                            All_Map[Array_index2].TileName = New_Map3[Array_index_Third].TileName;
+                            if (Array_index_Third == 99)
+                            {
+                                Array_index_Third = 0;
+                            }
+                            else
+                            {
+                                Array_index_Third++;
+                            }
                         }
+
+                        Array_index2++;
                     }
-
-                    Array_index2++;
-                }
-            }
-
-            SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.Filter = "png files (*.png)|*.png|All files (*.*)|*.*";
-            if (saveFile.ShowDialog() == true)
-            {
-                
-
-                string[] Files = { Info.ImagePath1, Info.ImagePath2, Info.ImagePath3 };
-
-                int MaxWidth = 0;
-                int MaxHeight = 0;
-                int Columns = 3;
-                foreach (string Image in Files)
-                {
-                    System.Drawing.Image image = System.Drawing.Image.FromFile(Image);
-                    MaxWidth = Math.Max(MaxWidth, image.Width);
-                    MaxHeight = Math.Max(MaxHeight, image.Height);
-                    image.Dispose();
                 }
 
-                int Width = Columns * MaxWidth;
-                int Height = MaxHeight;
-
-                System.Drawing.Bitmap Sheet = new System.Drawing.Bitmap(Width, Height);
-
-                using (System.Drawing.Graphics GFX = System.Drawing.Graphics.FromImage(Sheet))
+                SaveFileDialog saveFile2 = new SaveFileDialog();
+                saveFile2.Filter = "png files (*.png)|*.png|All files (*.*)|*.*";
+                if (saveFile2.ShowDialog() == true)
                 {
-                    int Col = 0;
-                    int Row = 0;
-                    foreach (string F in Files)
+                    string[] Files = { Info.ImagePath1, Info.ImagePath2, Info.ImagePath3 };
+                    if (Info.ImagePath1 == string.Empty && Info.ImagePath2 == string.Empty && Info.ImagePath3 == string.Empty)
                     {
-                        System.Drawing.Image img = System.Drawing.Image.FromFile(F);
-                        int x = (Col * MaxWidth) + (MaxWidth / 2 - img.Width / 2);
-                        int y = (Row * MaxHeight) + (MaxHeight / 2 - img.Height / 2);
-
-                        System.Drawing.Rectangle SrcRect = new System.Drawing.Rectangle(0, 0, img.Width, img.Height);
-                        System.Drawing.Rectangle DestRect = new System.Drawing.Rectangle(x, y, img.Width, img.Height);
-                        GFX.DrawImage(img, DestRect, SrcRect, System.Drawing.GraphicsUnit.Pixel);
-                        img.Dispose();
-
-                        Col++;
-                        if (Col == Columns)
+                        MessageBox.Show("An image is empty, since Images have been conflicted. Should choose different name of the file, not same");
+                    }
+                    else
+                    {
+                        int MaxWidth = 0;
+                        int MaxHeight = 0;
+                        int Columns = 1;
+                        int Rows = 3;
+                        foreach (string Image in Files)
                         {
-                            Col = 0;
-                            Row++;
+                            System.Drawing.Image image = System.Drawing.Image.FromFile(Image);
+                            MaxWidth = Math.Max(MaxWidth, image.Width);
+                            MaxHeight = Math.Max(MaxHeight, image.Height);
+                            image.Dispose();
                         }
+
+                        int Width = MaxWidth;
+                        int Height = Rows * MaxHeight;
+
+                        System.Drawing.Bitmap Sheet = new System.Drawing.Bitmap(Width, Height);
+
+                        using (System.Drawing.Graphics GFX = System.Drawing.Graphics.FromImage(Sheet))
+                        {
+                            int Col = 0;
+                            int Row = 0;
+                            foreach (string F in Files)
+                            {
+                                System.Drawing.Image img = System.Drawing.Image.FromFile(F);
+                                int x = (Col * MaxWidth) + (MaxWidth / 2 - img.Width / 2);
+                                int y = (Row * MaxHeight) + (MaxHeight / 2 - img.Height / 2);
+
+                                System.Drawing.Rectangle SrcRect = new System.Drawing.Rectangle(0, 0, img.Width, img.Height);
+                                System.Drawing.Rectangle DestRect = new System.Drawing.Rectangle(x, y, img.Width, img.Height);
+                                GFX.DrawImage(img, DestRect, SrcRect, System.Drawing.GraphicsUnit.Pixel);
+                                img.Dispose();
+
+                                Col++;
+                                if (Col == Columns)
+                                {
+                                    Col = 0;
+                                    Row++;
+                                }
+                            }
+                        }
+                        Sheet.Save(saveFile2.FileName); // The image will save new file into output path
+                        string CompleteName = "Map.json";
+                        if (File.Exists(CompleteName))
+                        {
+                            File.Delete(CompleteName);
+                        }
+                        var JsonSerilzation = JsonConvert.SerializeObject(All_Map, Formatting.Indented);
+                        System.IO.File.WriteAllText(CompleteName, JsonSerilzation);
+                        All_Map = null;
+                        this.Box.SelectedItem = First_List;
                     }
                 }
-                Sheet.Save(saveFile.FileName); // The image will save new file into output path
-                string CompleteName = "Map.json";
-                if(File.Exists(CompleteName))
-                {
-                    File.Delete(CompleteName);
-                }
-                var JsonSerilzation = JsonConvert.SerializeObject(All_Map, Formatting.Indented);
-                System.IO.File.WriteAllText(CompleteName, JsonSerilzation);
-                Combine_Button.IsEnabled = false;
-                Info.ImagePath1 = null;
-                Info.ImagePath2 = null;
-                Info.ImagePath3 = null;
-                Files = null;
-                First_Check.IsChecked = false;
-                Second_Check.IsChecked = false;
-                Third_Check.IsChecked = false;
-                All_Map = null;
-                Generate_Button.IsEnabled = true;
-                Map_Number = 0;
             }
         }
         // Load a map by a Json file
@@ -592,7 +726,6 @@ namespace Final_Project
                                 New_Map1[i].GetTileNumber = Load_Map[i].GetTileNumber;
                                 New_Map1[i].TileName = Load_Map[i].TileName;
                             }
-                            First_Check.IsChecked = true;
                             foreach (var c in Map.Children.OfType<Rectangle>())
                             {
                                 switch (New_Map1[U].GetTileNumber)
@@ -626,7 +759,6 @@ namespace Final_Project
                                 New_Map2[i].GetTileNumber = Load_Map[i].GetTileNumber;
                                 New_Map2[i].TileName = Load_Map[i].TileName;
                             }
-                            Second_Check.IsChecked = true;
                             foreach (var c in Map.Children.OfType<Rectangle>())
                             {
                                 switch (New_Map2[U].GetTileNumber)
@@ -659,7 +791,6 @@ namespace Final_Project
                                 New_Map3[i].GetTileNumber = Load_Map[i].GetTileNumber;
                                 New_Map3[i].TileName = Load_Map[i].TileName;
                             }
-                            Third_Check.IsChecked = true;
                             foreach (var c in Map.Children.OfType<Rectangle>())
                             {
                                 switch (New_Map3[U].GetTileNumber)
@@ -689,6 +820,195 @@ namespace Final_Project
                 {
                     MessageBox.Show("Error is appeared: {0}", ex.Message);
                 }
+            }
+        }
+
+        private void Display_Map(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog source = new OpenFileDialog();
+            source.Filter = "png files (*.png)|*.png|All files (*.*)|*.*";
+            if (source.ShowDialog() == true)
+            {
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(source.FileName);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                if(bitmap.Height > 700)
+                {
+                    Screenshot2 screenshot2 = new Screenshot2();
+                    screenshot2.Image_Background_Vertical.Source = bitmap;
+                    screenshot2.ShowDialog();
+                }
+                else if (bitmap.Width > 700)
+                {
+                    Screenshot3 screenshot3 = new Screenshot3();
+                    screenshot3.Image_Background_Horizontal.Source = bitmap;
+                    screenshot3.ShowDialog();
+                }
+                else
+                {
+                    Screenshot screenshot = new Screenshot();
+                    screenshot.Image_Background.Source = bitmap;
+                    screenshot.ShowDialog();
+                }
+            }
+        }
+
+        private void First_Map(object sender, RoutedEventArgs e)
+        {
+            int Index_tile = 0;
+            Map_Number = 0;
+            foreach (var t in Map.Children.OfType<Rectangle>())
+            {
+                switch (New_Map1[Index_tile].GetTileNumber)
+                {
+                    case Tile_Type.Empty:
+                        t.Fill = Brushes.White;
+                        break;
+                    case Tile_Type.One:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.First_tile, UriKind.Absolute)) };
+                        break;
+                    case Tile_Type.Two:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.Second_tile, UriKind.Absolute)) };
+                        break;
+                    case Tile_Type.Three:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.Third_tile, UriKind.Absolute)) };
+                        break;
+                    case Tile_Type.Four:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.Fourth_tile, UriKind.Absolute)) };
+                        break;
+                }
+                Index_tile++;
+            }
+        }
+        private void Second_Map(object sender, RoutedEventArgs e)
+        {
+            int Index_tile = 0;
+            Map_Number = 1;
+            foreach (var t in Map.Children.OfType<Rectangle>())
+            {
+                switch (New_Map2[Index_tile].GetTileNumber)
+                {
+                    case Tile_Type.Empty:
+                        t.Fill = Brushes.White;
+                        break;
+                    case Tile_Type.One:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.First_tile, UriKind.Absolute)) };
+                        break;
+                    case Tile_Type.Two:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.Second_tile, UriKind.Absolute)) };
+                        break;
+                    case Tile_Type.Three:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.Third_tile, UriKind.Absolute)) };
+                        break;
+                    case Tile_Type.Four:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.Fourth_tile, UriKind.Absolute)) };
+                        break;
+                }
+                Index_tile++;
+            }
+        }
+        private void Third_Map(object sender, RoutedEventArgs e)
+        {
+            int Index_tile = 0;
+            Map_Number = 2;
+            foreach (var t in Map.Children.OfType<Rectangle>())
+            {
+                switch (New_Map3[Index_tile].GetTileNumber)
+                {
+                    case Tile_Type.Empty:
+                        t.Fill = Brushes.White;
+                        break;
+                    case Tile_Type.One:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.First_tile, UriKind.Absolute)) };
+                        break;
+                    case Tile_Type.Two:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.Second_tile, UriKind.Absolute)) };
+                        break;
+                    case Tile_Type.Three:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.Third_tile, UriKind.Absolute)) };
+                        break;
+                    case Tile_Type.Four:
+                        t.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(Info.Fourth_tile, UriKind.Absolute)) };
+                        break;
+                }
+                Index_tile++;
+            }
+        }
+
+        private void Reset_Map(object sender, RoutedEventArgs e)
+        {
+            Array_index = 0;
+            if(Map_Number == 0)
+            {
+                New_Map1.Clear();
+                First_Check.IsChecked = false;
+                Combine_Button.IsEnabled = false;
+
+                foreach (var t in Map.Children.OfType<Rectangle>())
+                {
+                    t.Fill = Brushes.White;
+                }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        Is_Map map1 = new Is_Map();
+                        New_Map1.Add(map1);
+                        New_Map1[Array_index].GetTileNumber = Tile_Type.Empty;
+                        New_Map1[Array_index].Columns = j + 1;
+                        New_Map1[Array_index].Rows = i + 1;
+                    }
+                }
+                Array_index = 0;
+            }
+            else if(Map_Number == 1)
+            {
+                New_Map2.Clear();
+                Second_Check.IsChecked = false;
+                Combine_Button.IsEnabled = false;
+                foreach (var t in Map.Children.OfType<Rectangle>())
+                {
+                    t.Fill = Brushes.White;
+                }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        Is_Map map2 = new Is_Map();
+                        New_Map2.Add(map2);
+                        New_Map2[Array_index].GetTileNumber = Tile_Type.Empty;
+                        New_Map2[Array_index].Columns = j + 1;
+                        New_Map2[Array_index].Rows = i + 1;
+                    }
+                }
+                Array_index = 0;
+            }
+            else if (Map_Number == 2)
+            {
+                New_Map3.Clear();
+                Third_Check.IsChecked = false;
+                Combine_Button.IsEnabled = false;
+                foreach (var t in Map.Children.OfType<Rectangle>())
+                {
+                    t.Fill = Brushes.White;
+                }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        Is_Map map3 = new Is_Map();
+                        New_Map3.Add(map3);
+                        New_Map3[Array_index].GetTileNumber = Tile_Type.Empty;
+                        New_Map3[Array_index].Columns = j + 1;
+                        New_Map3[Array_index].Rows = i + 1;
+                    }
+                }
+                Array_index = 0;
             }
         }
     }

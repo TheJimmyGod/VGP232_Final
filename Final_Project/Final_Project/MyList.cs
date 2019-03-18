@@ -24,6 +24,11 @@ namespace Final_Project
         First, Second, Third, Fourth, Erase
     }
 
+    public enum Direction
+    {
+        Horizontal, Vertical
+    }
+
     public class Tile_info
     {
         public string First_tile { get; set; }
