@@ -25,6 +25,7 @@ namespace Final_Project
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Basic constructs
         int Map_Number = 0;
         int index = 0;
         int Array_index = 0;
@@ -431,9 +432,9 @@ namespace Final_Project
                 MessageBox.Show("Import tile first");
             }
         }
-
-        // When you fill all list, Combine generator will help to merge three images into a single image
         // Basically, it has been ultilized sprite generator's functions
+        // When you fill all list, Combine generator will help to merge three images into a single image
+        // Then the app would save a map to Json file
         private void Combine(object sender, RoutedEventArgs e)
         {
             int Array_index2 = 0;
@@ -564,7 +565,7 @@ namespace Final_Project
                 Map_Number = 0;
             }
         }
-
+        // Load a map by a Json file
         private void Load_JSON(object sender, RoutedEventArgs e)
         {
             if((Info.First_tile == null) || (Info.Second_tile == null) || (Info.Third_tile == null) || (Info.Fourth_tile == null))
@@ -684,9 +685,9 @@ namespace Final_Project
                         }
                     }
                 }
-                catch(Exception)
+                catch(Exception ex)
                 {
-                    MessageBox.Show("You have to import all tiles!");
+                    MessageBox.Show("Error is appeared: {0}", ex.Message);
                 }
             }
         }

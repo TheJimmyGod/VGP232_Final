@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Final_Project
 {
+    // Tile type to input into a list<Is_Map>
     public enum Tile_Type
     {
         Empty, One, Two, Three, Four
@@ -17,6 +18,7 @@ namespace Final_Project
         public Tile_Type GetTileNumber { get; set; }
         public string TileName { get; set; }
     }
+    // Button types
     public enum Types
     {
         First, Second, Third, Fourth, Erase
